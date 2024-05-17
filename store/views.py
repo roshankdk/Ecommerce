@@ -6,11 +6,8 @@ from store.models import Product
 # Create your views here.
 
 def home(request):
-    '''
-    this is the home  page
-    '''
     products = Product.objects.all()
     return render(request,'home.html',{'products':products})
 
-def test(request):
-    return HttpResponse("This is the test view!!".encode('utf-8'))
+def about(request):
+    return render(request,'about.html')
