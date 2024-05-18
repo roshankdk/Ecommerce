@@ -1,7 +1,9 @@
+from collections import namedtuple
 from django.core.checks import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
+from store.forms import SignupForm
 from store.models import Product
 from django.contrib import messages
 
@@ -13,6 +15,17 @@ def home(request):
 
 def about(request):
     return render(request,'about.html')
+
+def signup_user(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,('Signup Successful!!'))
+            return redirect('login')
+    else:
+        form = SignupForm()
+    return render(request,'signup.html',{'form':form})
 
 def login_user(request):
     if request.method == "POST":
