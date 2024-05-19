@@ -30,14 +30,18 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            
+                            <li><a class="dropdown-item" href="{% url 'category' 'Laptop' %}">Laptop</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Watch' %}">Watch</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Mobile' %}">Mobile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Bag' %}">Bag</a></li>
+                            
                         </ul>
                     </li>
                 </ul>
@@ -53,7 +57,7 @@
                 <div>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fa-solid fa-user"></i> Hi, {{user.username}}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fa-solid fa-user"></i> <strong>Hi, {{user.username}}</strong></a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
@@ -65,9 +69,9 @@
         </div>
     </nav>
 
-    <!-- Alert Messages -->      
+    <!-- Alert Messages       -->
     {% if messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert"> 
+    <div class="alert alert-warning alert-dismissible fade show" id="msgAlert" role="alert"> 
         {% for message in messages %}
         <strong>{{message}}</strong>
         {% endfor %}
@@ -92,7 +96,5 @@
     <script src="https://kit.fontawesome.com/ea79840eb7.js" crossorigin="anonymous"></script>
     <!-- Core theme JS-->
     <script src="{static 'js/scripts.js'}"></script>
-
 </body>
-
-    </html>
+</html>
