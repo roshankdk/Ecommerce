@@ -13,9 +13,15 @@ from django.contrib import messages
 def home(request):
     category = Category.objects.all()
     products = Product.objects.all()
+
+    # session implementation to check no of times the user visit this page
+    # num_visits = request.session.get('num_visits',0)
+    # request.session['num_visits'] = num_visits +  1
+
     context = {
         'products':products,
         'category':category,
+        # 'num_visits':num_visits,
     }
     return render(request,'home.html',context)
 
