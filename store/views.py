@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from store.forms import SignupForm
 from store.models import Category, Product
 from django.contrib import messages
+from django.contrib.sessions import base_session
 
 # Create your views here.
 
