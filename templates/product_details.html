@@ -20,8 +20,8 @@
                 {% endif %}
             </div>
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center">
-                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" value="{{product.id}}" id="add_cart">Add to cart</a></div>
-                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" href="{% url 'home' %}">Home</a></div>
+                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" id="add_cart" data-product-id="{{ product.id }}">Add to cart</a></div>
+                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" href="{% url 'home' %}" id="homeCheck">Home</a></div>
             </div>
             
         </div>
@@ -36,13 +36,14 @@
 <br><br>
 
 <script>
-    $(document).on('click','#add-cart',function(e){
+    $(document).on('click','#add_cart',function(e){
         e.preventDefault();
+        var productId = $(this).data('product-id');
         $.ajax({
             type:'POST',
-            url: '{% url 'cart_add' %}',
+            url: "{% url 'cart_add' %}",
             data: {
-                product_id: $('#add_cart').val(),
+                product_id: productId,
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
@@ -52,9 +53,9 @@
             },
 
             error: function(xhr, errmsg, err){
-
+                console.log(errmsg);
             }
-        })
-    })
+        });
+    });
 </script>
 {% endblock content %}

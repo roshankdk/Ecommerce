@@ -1,4 +1,6 @@
 from .cart import Cart
 
+#creating the context processor 
 def cart(request):
-    return {'cart':Cart(request)}
+    # return the default data from our cart
+    return {'cart': Cart(request)}
