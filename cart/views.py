@@ -1,5 +1,4 @@
 from itertools import product
-import re
 from django.core.files.storage.memory import errno
 from django.shortcuts import render, get_object_or_404
 from django.template import context
@@ -20,8 +19,8 @@ def cart_add(request):
         product_id = int(request.POST.get('product_id'))
         product = get_object_or_404(Product, id=product_id)
         cart.add(product=product)
-        cart_quantity = cart.__len__()
-        response = JsonResponse({'Product qty': cart_quantity})
+        cart_quantity = cart.__len__()  
+        response = JsonResponse({'qty': cart_quantity})
         return response
 
 

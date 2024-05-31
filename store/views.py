@@ -12,7 +12,6 @@ from django.contrib.sessions import base_session
 # Create your views here.
 
 def home(request):
-    category = Category.objects.all()
     products = Product.objects.all()
 
     # session implementation to check no of times the user visit this page
@@ -21,13 +20,12 @@ def home(request):
 
     context = {
         'products':products,
-        'category':category,
         # 'num_visits':num_visits,
     }
     return render(request,'home.html',context)
 
 def about(request):
-    return render(request,'about.html')
+    return render(request,'about.html',{})
 
 def signup_user(request):
     if request.method == "POST":
@@ -80,7 +78,6 @@ def category(request,foo):
             messages.success(request,("No product doesn't exists for this category!!"))
             return redirect('home')
     except:
-        print("From expect block")
         messages.success(request,("Category doesn't exists!!"))
         return redirect('home')
 
