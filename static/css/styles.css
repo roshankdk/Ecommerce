@@ -10824,3 +10824,23 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+
+/* quantity_selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quantity-selector .btn-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quantity-selector .form-control {
+  text-align: center;
+  max-width: 80px;
+  margin: 0 5px;
+}

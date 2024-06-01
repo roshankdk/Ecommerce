@@ -1,4 +1,5 @@
 from itertools import product
+from django.contrib import messages
 from django.core.files.storage.memory import errno
 from django.shortcuts import render, get_object_or_404
 from django.template import context
@@ -9,9 +10,9 @@ from django.http import HttpResponse, JsonResponse, response
 # Create your views here.
 
 def cart_summary(request):
-    keys = request.session.keys()
-    items = request.session.items()
-    return render(request,'cart/cart_summary.html',{'keys':keys,'items':items})
+    cart = Cart(request)
+    cart_products = cart.get_cart_product()
+    return render(request,'cart/cart_summary.html',{'cart_products':cart_products})
 
 def cart_add(request):
     cart = Cart(request)
