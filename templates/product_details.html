@@ -7,23 +7,39 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <strong><h3 class="card-title">{{product.name}}</h3></strong>
+                <strong>
+                    <h3 class="card-title">{{product.name}}</h3>
+                </strong>
                 <p class="card-text">{{product.description}}</p>
                 {% if product.is_sale %}
                 <!-- Sale badge-->
-                <div class="badge position-absolute" style="top: 0.5rem; right: 0.5rem; color: rgb(231, 58, 15); font-size: 1.5rem;">On Sale</div>
+                <div class="badge position-absolute"
+                    style="top: 0.5rem; right: 0.5rem; color: rgb(231, 58, 15); font-size: 1.5rem;">On Sale</div>
                 <p class="fw-bold" style="font-size: large;">Original Price: <s>{{ product.price}}</s>
                     <br>
-                    Sale Price: {{ product.sale_price}}</p>
+                    Sale Price: {{ product.sale_price}}
+                </p>
                 {% else %}
                 <p class="fw-bold">Price: {{ product.price}}</p>
                 {% endif %}
             </div>
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center">
-                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" id="add_cart" data-product-id="{{ product.id }}">Add to cart</a></div>
-                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" href="{% url 'home' %}" id="homeCheck">Home</a></div>
+                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" id="add_cart"
+                        data-product-id="{{ product.id }}">Add to cart</a></div>
+                <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" href="{% url 'home' %}"
+                        id="homeCheck">Home</a></div>
+                <div class="d-flex">
+                    <div>
+                        <select class="form-select" aria-label="Default select example" id="item_qty">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </div>
 </div>
@@ -36,23 +52,26 @@
 <br><br>
 
 <script>
-    $(document).on('click','#add_cart',function(e){
+    $(document).on('click', '#add_cart', function (e) {
         e.preventDefault();
         var productId = $(this).data('product-id');
+        var itemQty = parseInt($('#item_qty option:selected').val());
+        
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "{% url 'cart_add' %}",
             data: {
                 product_id: productId,
+                itemQty: itemQty, 
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
 
-            success: function(json){
+            success: function (json) {
                 document.getElementById('cart_quantity').textContent = json.qty
             },
 
-            error: function(xhr, errmsg, err){
+            error: function (xhr, errmsg, err) {
                 console.log(errmsg);
             }
         });
