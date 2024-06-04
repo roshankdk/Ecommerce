@@ -10844,3 +10844,36 @@ textarea.form-control-lg {
   max-width: 80px;
   margin: 0 5px;
 }
+
+
+
+
+/* counter */
+.counter{
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;  
+  height: fit-content;
+}
+
+button{
+  padding: 0.2rem 0.5rem;
+  outline: none;
+  border: none;
+  background-color: white;
+  transition: 0.1s all linear;
+  border-radius: 5px;
+}
+button:hover{
+  background-color: rgb(199, 72, 0);
+  color:white;
+}
+.counter:hover{
+  
+  border: none;
+}
+.counter h2{
+  font-size: 1.5rem;
+}

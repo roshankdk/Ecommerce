@@ -75,7 +75,7 @@ def category(request,foo):
         if products:
             return render(request,'category.html',context)
         else:
-            messages.success(request,("No product doesn't exists for this category!!"))
+            messages.success(request,("Product doesn't exist for this category!!"))
             return redirect('home')
     except:
         messages.success(request,("Category doesn't exists!!"))
