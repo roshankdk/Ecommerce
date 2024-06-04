@@ -1,3 +1,5 @@
+from django.db.models import constraints
+from django.http import request
 from store.models import Product
 
 class Cart():
@@ -16,7 +18,13 @@ class Cart():
             self.cart[product_id] = (itemQty)
                 
         self.session.modified = True
+
+    def delete(self,productId):
+        productId = str(productId)
+        del self.cart[productId]
     
+        self.session.modified = True
+
     def __len__(self):
         return len(self.cart)
 

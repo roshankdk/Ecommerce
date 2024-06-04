@@ -37,10 +37,12 @@
                     {% endif %}
                 </div>
                 <div class="card-footer border-top-0 bg-transparent d-flex justify-content-center align-items-center">
-                    <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" id="add_cart"
-                            data-product-id="{{ product.id }}">Remove</a></div>
+                    <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" id="remove_cart_item"
+                            data-product-id="{{ product.id }}">Remove</a>
+                    </div>
                     <div class="text-center p-4"><a class="btn btn-outline-dark mt-auto" href="{% url 'home' %}"
-                            id="homeCheck">Buy</a></div>
+                            id="homeCheck">Buy</a>
+                    </div>
                     <!-- counter -->
                     <div class="counter">
                         <button class="decrease" style="font-size: 1.5rem; font-weight: 700;">
@@ -59,7 +61,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     {% endfor %}
@@ -71,11 +72,29 @@
     </div>
 
 </div>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endif %}
 
+<script>
+    $(document).on('click', "#remove_cart_item", function(e){
+        e.preventDefault();
+        var productId = $(this).data('product-id');
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart_delete' %}",
+            data: {
+                productId: productId,
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                action: 'post',
+            },
+            success: function(json){
+                // document.getElementById('cart_quantity').textContent = json.qty
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(errmsg);
+            }
+        });
+    })
+</script>
 {% endblock content %}
