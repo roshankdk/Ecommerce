@@ -48,7 +48,7 @@
                         <button class="decrease" style="font-size: 1.5rem; font-weight: 700;">
                             <i class="fa-solid fa-minus"></i>
                         </button>
-                        <h2 class="counter-value pt-2" id="itemQtyy">
+                        <h2 class="counter-value pt-2">  
                             {% for key , value in itemQty.items %}
                                 {% if key == product.id|slugify %}
                                     {{value}}
