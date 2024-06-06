@@ -1,14 +1,12 @@
-from collections import namedtuple
-from itertools import product
 from django.core.checks import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from store.forms import SignupForm
+from django.contrib.auth.models import User
+from store.forms import SignupForm, UpdateForm
 from store.models import Category, Product
 from django.contrib import messages
 from django.contrib.sessions import base_session
-
 # Create your views here.
 
 def home(request):
@@ -52,6 +50,30 @@ def login_user(request):
             return redirect('login')
     else:   
         return render(request,'login.html')
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        curr_user = User.objects.get(pk=request.user.id)
+        update_form = UpdateForm(request.POST or None, instance=curr_user)
+        
+        if update_form.is_valid():
+            update_form.save()
+            login(request, curr_user)
+            messages.success(request,('User credentials updated!!'))
+        else:
+            return render(request,'update.html',{'update_from':update_form})
+    else:
+        messages.success(request,('You must be logged to update!!'))
+        return redirect('home')
+
+    return render(request,'update.html',{})
+
+def user_profile(request):
+    user = User.objects.get(pk=request.user.id)
+    return render(request,'user_profile.html',{'user':user})
+
+
 
 def logout_user(request):
     messages.success(request,('Logout Successful!!'))
