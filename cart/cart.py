@@ -16,8 +16,8 @@ class Cart:
         product_id = str(product.id)
         itemQty = str(itemQty)
 
-        if product_id not in self.cart:
-            self.cart[product_id] = itemQty
+        # if product_id not in self.cart:
+        self.cart[product_id] = itemQty
 
         self.session.modified = True
 

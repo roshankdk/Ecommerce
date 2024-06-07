@@ -10,7 +10,6 @@
 const increase = document.querySelector(".increase");
 const decrease = document.querySelector(".decrease");
 const counterValue = document.querySelector(".counter-value");
-counterValue.textContent = 1;
 
 increase.addEventListener("click", handleIncrease);
 decrease.addEventListener("click", handleDecrease);

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Update your Account</h1>
+            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+        </div>
+    </div>
+</header>
+<br><br>
+
+<div class="container row-cols-3 d-flex justify-content-center">
+    <form style="padding: 10px;" method="POST" action="{% url 'update_profile' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input type="text" class="form-control" name="username" placeholder="Enter new username">
+        </div>
+        <div class="mb-3">
+          <input type="email" class="form-control" name="email" placeholder="Enter new email">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+</div>
+{% endblock %}

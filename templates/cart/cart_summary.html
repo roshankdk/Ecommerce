@@ -28,12 +28,12 @@
                     <div class="badge position-absolute"
                         style="top: 0.5rem; right: 0.5rem; color: rgb(231, 58, 15); font-size: 1.5rem;">On Sale
                     </div>
-                    <p class="fw-bold" style="font-size: large;">Original Price: <s>{{ product.price}}</s>
+                    <p class="fw-bold" style="font-size: large;">Original Price: $<s>{{ product.price}}</s>
                         <br>
                         Sale Price: {{ product.sale_price}}
                     </p>
                     {% else %}
-                    <p class="fw-bold">Price: {{ product.price}}</p>
+                    <p class="fw-bold">Price: ${{ product.price}}</p>
                     {% endif %}
                 </div>
                 <div class="card-footer border-top-0 bg-transparent d-flex justify-content-center align-items-center">
@@ -65,6 +65,7 @@
     </div>
     {% endfor %}
 </div>
+<br><br><br><br><br><br><br><br><br><br>
 {% else %}
 <div class="fs-1 text-center" style="color: red;">No items in your cart!!</div>
 <div class="card-footer border-top-0 bg-transparent d-flex justify-content-center">

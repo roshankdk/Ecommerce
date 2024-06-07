@@ -1,4 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from typing import Any
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
@@ -28,4 +30,17 @@ class UpdateForm(UserChangeForm):
         self.fields['first_name'].widget.attrs.update({'class':'form-control', 'placeholder':'Enter new first name'})
         self.fields['last_name'].widget.attrs.update({'class':'form-control', 'placeholder':'Enter new last name'})
         self.fields['email'].widget.attrs.update({'class':'form-control', 'placeholder':'Enter your new email:'})
+
+class ChangePasswordForm(PasswordChangeForm):
+    class Meta:
+        model = User
+        fields =  ['old_password','new_password','new_password1']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'class':'form-control', 'placeholder':'Enter current password'})
+        self.fields['new_password1'].widget.attrs.update({'class':'form-control', 'placeholder':'Enter old password'})
+        self.fields['new_password2'].widget.attrs.update({'class':'form-control', 'placeholder':'Confirm password'})
+        self.fields['old_password'].label = 'Current Password'
+        
 
