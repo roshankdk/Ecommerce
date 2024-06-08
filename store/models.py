@@ -5,6 +5,20 @@ from django.db.models.signals import ModelSignal
 from django.views.generic import dates
 from django.contrib.auth.models import User
 # Create your models here.
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(auto_now=True)
+    phone = models.CharField(max_length=15)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    zipcode = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.user.username
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
@@ -13,8 +27,6 @@ class Category(models.Model):
     
     class Meta:
         verbose_name_plural = 'categories'
-
-
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
