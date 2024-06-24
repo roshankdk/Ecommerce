@@ -4,8 +4,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from store.forms import SignupForm, UpdateForm, ChangePasswordForm
-from store.models import Category, Product
+from store.models import Category, Product, Profile
 from django.contrib import messages
+
 # Create your views here.
 
 
@@ -49,42 +50,68 @@ def login_user(request):
         return render(request, "login.html")
 
 
-def update_user(request):
-    if request.user.is_authenticated:
-        curr_user = User.objects.get(pk=request.user.id)
-        update_form = UpdateForm(request.POST or None, instance=curr_user)
+# def update_user(request):
+#     if request.user.is_authenticated:
+#         curr_user = User.objects.get(pk=request.user.id)
+#         update_form = UpdateForm(request.POST or None, instance=curr_user)
 
-        if update_form.is_valid():
-            update_form.save()
-            login(request, curr_user)
-            messages.success(request, ("User credentials updated!!"))
-            return redirect("home")
-        else:
-            return render(request, "update_profile.html", {"update_from": update_form})
-    else:
-        messages.success(request, ("You must be logged to update!!"))
-        return redirect("home")
+#         if update_form.is_valid():
+#             update_form.save()
+#             login(request, curr_user)
+#             messages.success(request, ("User credentials updated!!"))
+#             return redirect("home")
+#         else:
+#             return render(request, "update_profile.html", {"update_from": update_form})
+#     else:
+#         messages.success(request, ("You must be logged to update!!"))
+#         return redirect("home")
+
 
 def user_profile(request):
-    print(request.user.username)
-    return render(request, "user_profile.html")
+    if request.user.is_authenticated:
+        curr_user = request.user
+        user_profile = Profile.objects.get(user=curr_user)
+        context = {
+            'user': curr_user,
+            'profile': user_profile
+        }
+    else:
+        messages.success(request, ("You need to login first!!"))
+    return render(request, "profile.html", context)
+
+def update_profile(request):
+    if request.user.is_authenticated:
+        curr_user = Profile.objects.get(user__id=request.user.id)
+        form = UpdateForm(request.POST or None, instance=curr_user)
+
+        if form.is_valid():
+            form.save()
+            messages.success("Profile updated successfull!!")
+            return redirect('user_profile')
+        return render(request,'update_profile.html',{'form':form})
+    else:
+        messages.success("You must be logged!!")
+        return render('login')
+        
+
 
 def change_password(request):
     if request.user.is_authenticated:
         curr_user = request.user
-        if request.method == 'POST':
-            form = ChangePasswordForm(curr_user,request.POST)
+        if request.method == "POST":
+            form = ChangePasswordForm(curr_user, request.POST)
             if form.is_valid():
                 form.save()
-                login(request,curr_user)
+                login(request, curr_user)
                 messages.success(request, ("Password change successfull!!"))
-                return redirect('home')
+                return redirect("home")
         else:
             form = ChangePasswordForm(curr_user)
-            return render(request,'change_password.html',{'form':form})
+            return render(request, "change_password.html", {"form": form})
     else:
         messages.success(request, ("You must be logged in to change password!!"))
-        return redirect('home')
+        return redirect("home")
+
 
 def logout_user(request):
     messages.success(request, ("Logout Successful!!"))
@@ -114,5 +141,3 @@ def category(request, foo):
     except:
         messages.success(request, ("Category doesn't exists!!"))
         return redirect("home")
-
-
