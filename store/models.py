@@ -14,7 +14,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     zipcode = models.CharField(max_length=50)
-    photo = models.ImageField(upload_to="user_profile/", null=True)
+    photo = models.ImageField(upload_to="user_profile/", null=True, default="user_profile/Default.png")
 
     def __str__(self) -> str:
         return self.user.username

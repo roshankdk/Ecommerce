@@ -1,9 +1,9 @@
 from django.core.checks import messages
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from store.forms import SignupForm, UpdateForm, ChangePasswordForm
+from store.forms import SignupForm, ChangePasswordForm, UpdateProfileForm, UpdateUserForm
 from store.models import Category, Product, Profile
 from django.contrib import messages
 
@@ -49,24 +49,6 @@ def login_user(request):
     else:
         return render(request, "login.html")
 
-
-# def update_user(request):
-#     if request.user.is_authenticated:
-#         curr_user = User.objects.get(pk=request.user.id)
-#         update_form = UpdateForm(request.POST or None, instance=curr_user)
-
-#         if update_form.is_valid():
-#             update_form.save()
-#             login(request, curr_user)
-#             messages.success(request, ("User credentials updated!!"))
-#             return redirect("home")
-#         else:
-#             return render(request, "update_profile.html", {"update_from": update_form})
-#     else:
-#         messages.success(request, ("You must be logged to update!!"))
-#         return redirect("home")
-
-
 def user_profile(request):
     if request.user.is_authenticated:
         curr_user = request.user
@@ -80,19 +62,25 @@ def user_profile(request):
     return render(request, "profile.html", context)
 
 def update_profile(request):
-    if request.user.is_authenticated:
-        curr_user = Profile.objects.get(user__id=request.user.id)
-        form = UpdateForm(request.POST or None, instance=curr_user)
+    user = request.user
+    profile = Profile.objects.get(user=user)
 
-        if form.is_valid():
-            form.save()
-            messages.success("Profile updated successfull!!")
-            return redirect('user_profile')
-        return render(request,'update_profile.html',{'form':form})
+    if request.method == "POST":
+        print("HELLO111")
+        user_form = UpdateUserForm(request.POST, instance=user)
+        profile_form = UpdateProfileForm(request.POST, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
     else:
-        messages.success("You must be logged!!")
-        return render('login')
-        
+        print("HELLO22")
+        user_form = UpdateUserForm(instance=user)
+        profile_form = UpdateProfileForm(instance=profile)
+        return render(request, 'update_profile.html', {
+            'user_form': user_form,
+            'profile_form': profile_form
+        })
 
 
 def change_password(request):
