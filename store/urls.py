@@ -12,4 +12,5 @@ urlpatterns = [
     path('update_profile',views.update_profile,name='update_profile'),
     path('profile',views.user_profile,name='user_profile'),
     path('change_password',views.change_password,name='change_password'),
+    path('search/',views.search,name='search'),
 ]

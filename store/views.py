@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from store.forms import SignupForm, ChangePasswordForm, UpdateProfileForm, UpdateUserForm
 from store.models import Category, Product, Profile
 from django.contrib import messages
+from django.db.models import Q
 
 # Create your views here.
 
@@ -129,3 +130,13 @@ def category(request, foo):
     except:
         messages.success(request, ("Category doesn't exists!!"))
         return redirect("home")
+
+# search for the  products and catagories
+def search(request):
+    query = request.GET.get('search')
+    allProds = Product.objects.filter(Q(description__icontains=query)|Q(name__icontains=query))
+    context = {
+        "products": allProds,
+    }
+    return render(request,'home.html', context)
+

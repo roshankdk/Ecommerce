@@ -45,3 +45,5 @@ def cart_delete(request):
         response = JsonResponse({"qty": cart_quantity})
         messages.success(request, ("Item removed from the cart!!"))
         return response
+
+
