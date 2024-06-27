@@ -67,15 +67,13 @@ def update_profile(request):
     profile = Profile.objects.get(user=user)
 
     if request.method == "POST":
-        print("HELLO111")
         user_form = UpdateUserForm(request.POST, instance=user)
         profile_form = UpdateProfileForm(request.POST, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            return redirect('profile')
+            return redirect('user_profile')
     else:
-        print("HELLO22")
         user_form = UpdateUserForm(instance=user)
         profile_form = UpdateProfileForm(instance=profile)
         return render(request, 'update_profile.html', {
@@ -98,8 +96,9 @@ def change_password(request):
             form = ChangePasswordForm(curr_user)
             return render(request, "change_password.html", {"form": form})
     else:
-        messages.success(request, ("You must be logged in to change password!!"))
-        return redirect("home")
+        messages.success(request, ("You must be logged in to change password!!"))    
+        
+    return redirect("home")
 
 
 def logout_user(request):

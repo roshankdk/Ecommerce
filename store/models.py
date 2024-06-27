@@ -9,11 +9,11 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_modified = models.DateTimeField(auto_now=True)
-    phone = models.CharField(max_length=15)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    zipcode = models.CharField(max_length=50)
+    phone = models.CharField(max_length=15, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
     photo = models.ImageField(upload_to="user_profile/", null=True, default="user_profile/Default.png")
 
     def __str__(self) -> str:
